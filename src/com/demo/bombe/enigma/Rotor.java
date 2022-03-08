@@ -1,7 +1,5 @@
 package com.demo.bombe.enigma;
 
-import java.util.Arrays;
-
 public class Rotor {
     protected String name;
     protected int[] forwardWiring;
@@ -23,38 +21,38 @@ public class Rotor {
     public static Rotor Create(String name, int rotorPosition, int ringSetting) {
         switch (name) {
             case "I":
-                return new Rotor("I","EKMFLGDQVZNTOWYHXUSPAIBRCJ", rotorPosition, 16, ringSetting);
+                return new Rotor("I", "EKMFLGDQVZNTOWYHXUSPAIBRCJ", rotorPosition, 16, ringSetting);
             case "II":
-                return new Rotor("II","AJDKSIRUXBLHWTMCQGZNPYFVOE", rotorPosition, 4, ringSetting);
+                return new Rotor("II", "AJDKSIRUXBLHWTMCQGZNPYFVOE", rotorPosition, 4, ringSetting);
             case "III":
-                return new Rotor("III","BDFHJLCPRTXVZNYEIWGAKMUSQO", rotorPosition, 21, ringSetting);
+                return new Rotor("III", "BDFHJLCPRTXVZNYEIWGAKMUSQO", rotorPosition, 21, ringSetting);
             case "IV":
-                return new Rotor("IV","ESOVPZJAYQUIRHXLNFTGKDCMWB", rotorPosition, 9, ringSetting);
+                return new Rotor("IV", "ESOVPZJAYQUIRHXLNFTGKDCMWB", rotorPosition, 9, ringSetting);
             case "V":
-                return new Rotor("V","VZBRGITYUPSDNHLXAWMJQOFECK", rotorPosition, 25, ringSetting);
+                return new Rotor("V", "VZBRGITYUPSDNHLXAWMJQOFECK", rotorPosition, 25, ringSetting);
             case "VI":
-                return new Rotor("VI","JPGVOUMFYQBENHZRDKASXLICTW", rotorPosition, 0, ringSetting) {
+                return new Rotor("VI", "JPGVOUMFYQBENHZRDKASXLICTW", rotorPosition, 0, ringSetting) {
                     @Override
                     public boolean isAtNotch() {
                         return this.rotorPosition == 12 || this.rotorPosition == 25;
                     }
                 };
             case "VII":
-                return new Rotor("VII","NZJHGRCXMYSWBOUFAIVLPEKQDT", rotorPosition, 0, ringSetting) {
+                return new Rotor("VII", "NZJHGRCXMYSWBOUFAIVLPEKQDT", rotorPosition, 0, ringSetting) {
                     @Override
                     public boolean isAtNotch() {
                         return this.rotorPosition == 12 || this.rotorPosition == 25;
                     }
                 };
             case "VIII":
-                return new Rotor("VIII","FKQHTLXOCBJSPDZRAMEWNIUYGV", rotorPosition, 0, ringSetting) {
+                return new Rotor("VIII", "FKQHTLXOCBJSPDZRAMEWNIUYGV", rotorPosition, 0, ringSetting) {
                     @Override
                     public boolean isAtNotch() {
                         return this.rotorPosition == 12 || this.rotorPosition == 25;
                     }
                 };
             default:
-                return new Rotor("Identity","ABCDEFGHIJKLMNOPQRSTUVWXYZ", rotorPosition, 0, ringSetting);
+                return new Rotor("Identity", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", rotorPosition, 0, ringSetting);
         }
     }
 
@@ -66,7 +64,7 @@ public class Rotor {
         return rotorPosition;
     }
 
-    protected static int[] decodeWiring(String encoding) {
+    protected int[] decodeWiring(String encoding) {
         char[] charWiring = encoding.toCharArray();
         int[] wiring = new int[charWiring.length];
         for (int i = 0; i < charWiring.length; i++) {
@@ -75,7 +73,7 @@ public class Rotor {
         return wiring;
     }
 
-    protected static int[] inverseWiring(int[] wiring) {
+    protected int[] inverseWiring(int[] wiring) {
         int[] inverse = new int[wiring.length];
         for (int i = 0; i < wiring.length; i++) {
             int forward = wiring[i];
@@ -84,7 +82,7 @@ public class Rotor {
         return inverse;
     }
 
-    protected static int encipher(int k, int pos, int ring, int[] mapping) {
+    protected int encipher(int k, int pos, int ring, int[] mapping) {
         int shift = pos - ring;
         return (mapping[(k + shift + 26) % 26] - shift + 26) % 26;
     }

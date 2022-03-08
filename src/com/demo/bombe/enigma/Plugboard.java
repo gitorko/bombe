@@ -15,7 +15,7 @@ public class Plugboard {
         return this.wiring[c];
     }
 
-    private static int[] identityPlugboard() {
+    private int[] identityPlugboard() {
         int[] mapping = new int[26];
         for (int i = 0; i < 26; i++) {
             mapping[i] = i;
@@ -23,7 +23,7 @@ public class Plugboard {
         return mapping;
     }
 
-    public static Set<Integer> getUnpluggedCharacters(String plugboard) {
+    public Set<Integer> getUnpluggedCharacters(String plugboard) {
         Set<Integer> unpluggedCharacters = new HashSet<>();
         for (int i = 0; i < 26; i++) {
             unpluggedCharacters.add(i);
@@ -47,7 +47,7 @@ public class Plugboard {
         return unpluggedCharacters;
     }
 
-    public static int[] decodePlugboard(String plugboard) {
+    public int[] decodePlugboard(String plugboard) {
         if (plugboard == null || plugboard.equals("")) {
             return identityPlugboard();
         }

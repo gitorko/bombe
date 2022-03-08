@@ -10,6 +10,11 @@ public class Bombe {
     char[] cipherText;
     String rotor[] = {"I", "II", "III"};
     boolean[] visited;
+    String message;
+
+    public Bombe(String message) {
+        this.message = message;
+    }
 
     public void crackCode(String input) {
         cipherText = input.toCharArray();
@@ -23,9 +28,9 @@ public class Bombe {
                     int[] ringSettings = ringInputSet.get(k).stream().mapToInt(Integer::valueOf).toArray();
                     Enigma e1 = new Enigma(rotorPos, "B", ringStartPos, ringSettings, "");
                     char[] decryptText = e1.decrypt(cipherText);
-                    if (String.valueOf(decryptText).equals("WEATHERREPORT")) {
-                        System.out.println("FOUND! : Rotor:" + rotorInputSet.get(i) + ", Ring Start: " + ringInputSet.get(i) + ", Ring Setting: " + ringInputSet.get(k));
-                        return;
+                    if (String.valueOf(decryptText).startsWith(message)) {
+                        System.out.println("FOUND! " + String.valueOf(decryptText) + " : Rotor:" + rotorInputSet.get(i) + ", Ring Start: " + ringInputSet.get(i) + ", Ring Setting: " + ringInputSet.get(k));
+//                        return;
                     }
                 }
             }

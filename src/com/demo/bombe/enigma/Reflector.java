@@ -20,7 +20,7 @@ public class Reflector {
         }
     }
 
-    protected static int[] decodeWiring(String encoding) {
+    protected int[] decodeWiring(String encoding) {
         char[] charWiring = encoding.toCharArray();
         int[] wiring = new int[charWiring.length];
         for (int i = 0; i < charWiring.length; i++) {
