@@ -1,90 +1,34 @@
 package com.demo.bombe;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Duration;
+import java.time.Instant;
 
+import com.demo.bombe.enigma.Bombe;
 import com.demo.bombe.enigma.Enigma;
 
 public class Main {
 
+    public static String[] rotorSetup = new String[]{"I", "III", "II"};
+    public static int[] ringSetup = new int[]{0, 23, 0};
+    public static int[] ringSettingSetup = new int[]{0, 0, 12};
+    public static String plugBoardSetup = "";
+
     public static void main(String[] args) {
-        Enigma e1 = new Enigma(new String[]{"I", "II", "III"}, "B", new int[]{0, 0, 0}, new int[]{0, 0, 0}, "");
+        Enigma encryptor = new Enigma(rotorSetup, "B", ringSetup, ringSettingSetup, plugBoardSetup);
         String input = "WEATHERREPORT";
-        char[] cipherText = e1.encrypt(input.toCharArray());
-        System.out.println(cipherText);
+        char[] cipherText = encryptor.encrypt(input.toCharArray());
+        System.out.println("cipherText: " + String.valueOf(cipherText));
 
-        Enigma e2 = new Enigma(new String[]{"I", "II", "III"}, "B", new int[]{0, 0, 0}, new int[]{0, 0, 0}, "");
-        char[] decryptText = e2.decrypt(cipherText);
-        System.out.println(decryptText);
-        System.out.println();
-        Main main = new Main();
-        main.crackCode(String.valueOf(cipherText));
+        Enigma decryptor = new Enigma(rotorSetup, "B", ringSetup, ringSettingSetup, plugBoardSetup);
+        char[] decryptText = decryptor.decrypt(cipherText);
+        System.out.println("decryptText: " + String.valueOf(decryptText));
+
+        Instant start = Instant.now();
+        Bombe bombe = new Bombe();
+        bombe.crackCode(String.valueOf(cipherText));
+        Instant finish = Instant.now();
+        long timeElapsed = Duration.between(start, finish).toMillis();
+        System.out.println("Completed in :" + timeElapsed);
     }
 
-    List<List<String>> rotorInputSet;
-    List<List<Integer>> ringInputSet;
-    char[] cipherText;
-    String rotor[] = {"I", "II", "III"};
-    boolean[] visited;
-
-    public void crackCode(String input) {
-        cipherText = input.toCharArray();
-        setRotorInputSet();
-        setRingStartSet();
-        for (int i = 0; i < rotorInputSet.size(); i++) {
-            for (int j = 0; j < ringInputSet.size(); j++) {
-                for (int k = 0; k < ringInputSet.size(); k++) {
-                    String[] rotorPos = rotorInputSet.get(i).toArray(new String[0]);
-                    int[] ringStartPos = ringInputSet.get(j).stream().mapToInt(Integer::valueOf).toArray();
-                    int[] ringSettings = ringInputSet.get(k).stream().mapToInt(Integer::valueOf).toArray();
-                    Enigma e1 = new Enigma(rotorPos, "B", ringStartPos, ringSettings, "");
-                    char[] decryptText = e1.decrypt(cipherText);
-                    if (String.valueOf(decryptText).equals("WEATHERREPORT")) {
-                        System.out.println("FOUND! : Rotor:" + rotorInputSet.get(i) + ", Ring Start: " + ringInputSet.get(i) + ", Ring Setting: " + ringInputSet.get(k));
-                        return;
-                    }
-                }
-            }
-        }
-    }
-
-    private void setRotorInputSet() {
-        rotorInputSet = new ArrayList<>();
-        visited = new boolean[rotor.length];
-        rotorBackTrack(new ArrayList<>());
-        //System.out.println("Rotor Combinations: " + rotorInputSet);
-    }
-
-    private void rotorBackTrack(List<String> tempList) {
-        if (tempList.size() == rotor.length) {
-            rotorInputSet.add(new ArrayList<>(tempList));
-        } else {
-            for (int i = 0; i < rotor.length; i++) {
-                if (visited[i]) continue;
-                tempList.add(rotor[i]);
-                visited[i] = true;
-                rotorBackTrack(tempList);
-                tempList.remove(tempList.size() - 1);
-                visited[i] = false;
-            }
-        }
-    }
-
-    private void setRingStartSet() {
-        ringInputSet = new ArrayList<>();
-        ringStartBackTrack(new ArrayList<>());
-        //System.out.println("Ring Combinations: " + ringInputSet);
-    }
-
-    private void ringStartBackTrack(List<Integer> tempList) {
-        if (tempList.size() == 3) {
-            ringInputSet.add(new ArrayList<>(tempList));
-        } else {
-            for (int i = 0; i < 26; i++) {
-                tempList.add(i);
-                ringStartBackTrack(tempList);
-                tempList.remove(tempList.size() - 1);
-            }
-        }
-    }
 }
