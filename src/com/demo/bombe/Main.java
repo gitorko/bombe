@@ -10,20 +10,19 @@ public class Main {
 
     public static String[] rotorSetup = new String[]{"I", "II", "III"};
     public static int[] ringSetup = new int[]{0, 0, 0};
-    public static int[] ringSettingSetup = new int[]{0, 2, 0};
+    public static int[] ringSettingSetup = new int[]{0, 0, 0};
     public static String plugBoardSetup = "";
     public static String reflector = "B";
 
     public static void main(String[] args) {
-        String message = "ATTENTIONXWEATHERXREPORTX";
-//        String encrypted = encrypt(message);
-//       System.out.println("encrypted: " + encrypted);
+        String message = "ATTENTIONXWEATHERXREPORTXTHEXWEATHERXTODAYXIS";
+        String encrypted = encrypt(message);
+        System.out.println("encrypted: " + encrypted);
 
-//        String decrypted = decrypt("BZHWCRPQVRCTBABNPBSPRDKWI");
-//        System.out.println("decrypted: " + decrypted);
-//        System.out.println();
+        String decrypted = decrypt("BZHWCRPQVRCTBABNPBSPRDKWIKQKELUGSSZIGWDJXGOAZ");
+        System.out.println("decrypted: " + decrypted);
+        System.out.println();
 
-        String encrypted = "BZHWCRPQVRCTBABNPBSPRDKWI";
         crackEnigma(encrypted, message);
     }
 
@@ -43,7 +42,7 @@ public class Main {
     }
 
     public static String decrypt(String message) {
-        Enigma decryptor = new Enigma(rotorSetup, "B", ringSetup, ringSettingSetup, plugBoardSetup);
+        Enigma decryptor = new Enigma(rotorSetup, reflector, ringSetup, ringSettingSetup, plugBoardSetup);
         char[] decryptText = decryptor.decrypt(message.toCharArray());
         return String.valueOf(decryptText);
     }

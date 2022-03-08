@@ -29,7 +29,7 @@ public class Bombe {
                     Enigma e1 = new Enigma(rotorPos, "B", ringStartPos, ringSettings, "");
                     char[] decryptText = e1.decrypt(cipherText);
                     if (String.valueOf(decryptText).startsWith(message)) {
-                        System.out.println("FOUND! " + String.valueOf(decryptText) + " : Rotor:" + rotorInputSet.get(i) + ", Ring Start: " + ringInputSet.get(i) + ", Ring Setting: " + ringInputSet.get(k));
+                        System.out.println("FOUND! " + String.valueOf(decryptText) + " : Rotor:" + rotorInputSet.get(i) + ", Rotor Start: " + ringInputSet.get(j) + ", Ring Setting: " + ringInputSet.get(k));
 //                        return;
                     }
                 }
