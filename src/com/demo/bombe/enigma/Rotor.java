@@ -1,5 +1,7 @@
 package com.demo.bombe.enigma;
 
+import java.util.Arrays;
+
 public class Rotor {
     protected String name;
     protected int[] forwardWiring;
@@ -103,5 +105,12 @@ public class Rotor {
         this.rotorPosition = (this.rotorPosition + 1) % 26;
     }
 
-
+    @Override
+    public String toString() {
+        return "Rotor{" +
+                "name='" + name + '\'' +
+                ", rotorPosition=" + rotorPosition +
+                ", ringSetting=" + ringSetting +
+                '}';
+    }
 }

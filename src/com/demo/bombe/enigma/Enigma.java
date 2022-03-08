@@ -9,9 +9,7 @@ public class Enigma {
     public Rotor leftRotor;
     public Rotor middleRotor;
     public Rotor rightRotor;
-
     public Reflector reflector;
-
     public Plugboard plugboard;
 
     public Enigma(String[] rotors, String reflector, int[] rotorPositions, int[] ringSettings, String plugboardConnections) {
@@ -76,5 +74,16 @@ public class Enigma {
             output[i] = this.encrypt(input[i]);
         }
         return output;
+    }
+
+    @Override
+    public String toString() {
+        return "Enigma{" +
+                "leftRotor=" + leftRotor +
+                ", middleRotor=" + middleRotor +
+                ", rightRotor=" + rightRotor +
+                ", reflector=" + reflector +
+                ", plugboard=" + plugboard +
+                '}';
     }
 }

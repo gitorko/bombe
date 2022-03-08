@@ -1,5 +1,7 @@
 package com.demo.bombe.enigma;
 
+import java.util.Arrays;
+
 public class Reflector {
     protected int[] forwardWiring;
 
@@ -31,4 +33,10 @@ public class Reflector {
         return this.forwardWiring[c];
     }
 
+    @Override
+    public String toString() {
+        return "Reflector{" +
+                "forwardWiring=" + Arrays.toString(forwardWiring) +
+                '}';
+    }
 }

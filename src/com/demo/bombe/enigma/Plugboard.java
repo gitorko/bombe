@@ -1,5 +1,6 @@
 package com.demo.bombe.enigma;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -75,5 +76,12 @@ public class Plugboard {
         }
 
         return mapping;
+    }
+
+    @Override
+    public String toString() {
+        return "Plugboard{" +
+                "wiring=" + Arrays.toString(wiring) +
+                '}';
     }
 }
