@@ -1,7 +1,6 @@
 package com.demo.bombe;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.demo.bombe.enigma.Enigma;
@@ -22,25 +21,35 @@ public class Main {
         main.crackCode(String.valueOf(cipherText));
     }
 
-    List<List<String>> result;
+    List<List<String>> rotorInputSet;
     char[] cipherText;
     String rotor[] = {"I", "II", "III"};
+    boolean[] visited;
 
     public void crackCode(String input) {
-        result = new ArrayList<>();
-        backtrack(new ArrayList<>(), 0);
-        System.out.println(result);
+        cipherText = input.toCharArray();
+        System.out.println(getRotorInputSet());
     }
 
-    private void backtrack(List<String> tempList, int start) {
-        if (tempList.size() == 3) {
-            result.add(new ArrayList<>(tempList));
-            return;
-        }
-        for (int i = start; i < rotor.length; i++) {
-            tempList.add(rotor[i]);
-            backtrack(tempList, i);
-            tempList.remove(tempList.size() - 1);
+    private List<List<String>> getRotorInputSet() {
+        rotorInputSet = new ArrayList<>();
+        visited = new boolean[cipherText.length];
+        rototBackTrack(new ArrayList<>());
+        return rotorInputSet;
+    }
+
+    private void rototBackTrack(List<String> tempList) {
+        if (tempList.size() == rotor.length) {
+            rotorInputSet.add(new ArrayList<>(tempList));
+        } else {
+            for (int i = 0; i < rotor.length; i++) {
+                if (visited[i]) continue;
+                tempList.add(rotor[i]);
+                visited[i] = true;
+                rototBackTrack(tempList);
+                tempList.remove(tempList.size() - 1);
+                visited[i] = false;
+            }
         }
     }
 
