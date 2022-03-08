@@ -16,29 +16,46 @@ public class Main {
         Enigma e2 = new Enigma(new String[]{"I", "II", "III"}, "B", new int[]{0, 0, 0}, new int[]{0, 0, 0}, "");
         char[] decryptText = e2.decrypt(cipherText);
         System.out.println(decryptText);
-
+        System.out.println();
         Main main = new Main();
         main.crackCode(String.valueOf(cipherText));
     }
 
     List<List<String>> rotorInputSet;
+    List<List<Integer>> ringInputSet;
     char[] cipherText;
     String rotor[] = {"I", "II", "III"};
     boolean[] visited;
 
     public void crackCode(String input) {
         cipherText = input.toCharArray();
-        System.out.println(getRotorInputSet());
+        setRotorInputSet();
+        setRingStartSet();
+        for (int i = 0; i < rotorInputSet.size(); i++) {
+            for (int j = 0; j < ringInputSet.size(); j++) {
+                for (int k = 0; k < ringInputSet.size(); k++) {
+                    String[] rotorPos = rotorInputSet.get(i).toArray(new String[0]);
+                    int[] ringStartPos = ringInputSet.get(j).stream().mapToInt(Integer::valueOf).toArray();
+                    int[] ringSettings = ringInputSet.get(k).stream().mapToInt(Integer::valueOf).toArray();
+                    Enigma e1 = new Enigma(rotorPos, "B", ringStartPos, ringSettings, "");
+                    char[] decryptText = e1.decrypt(cipherText);
+                    if (String.valueOf(decryptText).equals("WEATHERREPORT")) {
+                        System.out.println("FOUND! : Rotor:" + rotorInputSet.get(i) + ", Ring Start: " + ringInputSet.get(i) + ", Ring Setting: " + ringInputSet.get(k));
+                        return;
+                    }
+                }
+            }
+        }
     }
 
-    private List<List<String>> getRotorInputSet() {
+    private void setRotorInputSet() {
         rotorInputSet = new ArrayList<>();
-        visited = new boolean[cipherText.length];
-        rototBackTrack(new ArrayList<>());
-        return rotorInputSet;
+        visited = new boolean[rotor.length];
+        rotorBackTrack(new ArrayList<>());
+        //System.out.println("Rotor Combinations: " + rotorInputSet);
     }
 
-    private void rototBackTrack(List<String> tempList) {
+    private void rotorBackTrack(List<String> tempList) {
         if (tempList.size() == rotor.length) {
             rotorInputSet.add(new ArrayList<>(tempList));
         } else {
@@ -46,43 +63,28 @@ public class Main {
                 if (visited[i]) continue;
                 tempList.add(rotor[i]);
                 visited[i] = true;
-                rototBackTrack(tempList);
+                rotorBackTrack(tempList);
                 tempList.remove(tempList.size() - 1);
                 visited[i] = false;
             }
         }
     }
 
-//    public static void crackCode2(char[] cipherText) {
-//        System.out.println("Cracking!");
-//        String reflector[] = {"B"};
-//        for (int rotoType1 = 0; rotoType1 < rotor.length; rotoType1++) {
-//            for (int rotoType2 = rotoType1; rotoType2 < rotor.length; rotoType2++) {
-//                for (int rotoType3 = rotoType2; rotoType3 < rotor.length; rotoType3++) {
-//                    String rotorInput[] = new String[]{rotor[rotoType1], rotor[rotoType2], rotor[rotoType3]};
-//                    System.out.println(Arrays.toString(rotorInput));
-//                    for (int rotorPos1 = 0; rotorPos1 < 26; rotorPos1++) {
-//                        for (int rotorPos2 = 0; rotorPos2 < 26; rotorPos2++) {
-//                            for (int rotorPos3 = 0; rotorPos3 < 26; rotorPos3++) {
-//                                for (int ringSet1 = 0; ringSet1 < 26; ringSet1++) {
-//                                    for (int ringSet2 = 0; ringSet2 < 26; ringSet2++) {
-//                                        for (int ringSet3 = 0; ringSet3 < 26; ringSet3++) {
-//                                            Enigma e2 = new Enigma(rotorInput, "B", new int[]{rotorPos1, rotorPos2, rotorPos3}, new int[]{ringSet1, ringSet2, ringSet3}, "");
-//                                            System.out.println(e2);
-//                                            char[] decryptText = e2.decrypt(cipherText);
-//                                            if (decryptText.toString().contains("WEATHERREPORT")) {
-//                                                System.out.println("Found! rotorPos1:" + rotorPos1 + ",rotorPos2:" + rotorPos2 + ",rotorPos3:" + rotorPos3 +
-//                                                        ",ringSet1:" + ringSet1 + ",ringSet2:" + ringSet2 + ",ringSet3:" + ringSet3);
-//                                                return;
-//                                            }
-//                                        }
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
+    private void setRingStartSet() {
+        ringInputSet = new ArrayList<>();
+        ringStartBackTrack(new ArrayList<>());
+        //System.out.println("Ring Combinations: " + ringInputSet);
+    }
+
+    private void ringStartBackTrack(List<Integer> tempList) {
+        if (tempList.size() == 3) {
+            ringInputSet.add(new ArrayList<>(tempList));
+        } else {
+            for (int i = 0; i < 26; i++) {
+                tempList.add(i);
+                ringStartBackTrack(tempList);
+                tempList.remove(tempList.size() - 1);
+            }
+        }
+    }
 }
