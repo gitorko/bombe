@@ -14,10 +14,11 @@ public class Bombe {
     Set<String> plugBoardPair;
     Set<Character> plugVisited;
     char[] cipherText;
-    String rotor[] = {"I", "II", "III"};
+    String rotor[] = {"I", "II", "III", "IV", "V"};
     boolean[] visited;
     String message;
     int MAX_WIRES = 1;
+    int MAX_ROTOR = 3;
 
     public Bombe(String message) {
         this.message = message;
@@ -62,7 +63,7 @@ public class Bombe {
     }
 
     private void rotorBackTrack(List<String> tempList) {
-        if (tempList.size() == rotor.length) {
+        if (tempList.size() == MAX_ROTOR) {
             rotorInputSet.add(new ArrayList<>(tempList));
         } else {
             for (int i = 0; i < rotor.length; i++) {
