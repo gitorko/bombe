@@ -11,15 +11,16 @@ public class Main {
     public static String[] rotorSetup = new String[]{"I", "II", "III"};
     public static int[] ringSetup = new int[]{0, 0, 0};
     public static int[] ringSettingSetup = new int[]{0, 0, 0};
-    public static String plugBoardSetup = "";
-    public static String reflector = "B";
+    public static String plugBoardSetup = "AR";
+    public static String reflector = "A";
 
     public static void main(String[] args) {
+
         String message = "ATTENTIONXWEATHERXREPORTXTHEXWEATHERXTODAYXIS";
         String encrypted = encrypt(message);
         System.out.println("encrypted: " + encrypted);
 
-        String decrypted = decrypt("BZHWCRPQVRCTBABNPBSPRDKWIKQKELUGSSZIGWDJXGOAZ");
+        String decrypted = decrypt(encrypted);
         System.out.println("decrypted: " + decrypted);
         System.out.println();
 

@@ -4,10 +4,10 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Plugboard {
+public class PlugBoard {
     private int[] wiring;
 
-    public Plugboard(String connections) {
+    public PlugBoard(String connections) {
         this.wiring = decodePlugboard(connections);
     }
 
@@ -15,7 +15,7 @@ public class Plugboard {
         return this.wiring[c];
     }
 
-    private int[] identityPlugboard() {
+    private int[] identityPlugBoard() {
         int[] mapping = new int[26];
         for (int i = 0; i < 26; i++) {
             mapping[i] = i;
@@ -49,23 +49,23 @@ public class Plugboard {
 
     public int[] decodePlugboard(String plugboard) {
         if (plugboard == null || plugboard.equals("")) {
-            return identityPlugboard();
+            return identityPlugBoard();
         }
 
         String[] pairings = plugboard.split("[^a-zA-Z]");
         Set<Integer> pluggedCharacters = new HashSet<>();
-        int[] mapping = identityPlugboard();
+        int[] mapping = identityPlugBoard();
 
         // Validate and create mapping
         for (String pair : pairings) {
             if (pair.length() != 2)
-                return identityPlugboard();
+                return identityPlugBoard();
 
             int c1 = pair.charAt(0) - 65;
             int c2 = pair.charAt(1) - 65;
 
             if (pluggedCharacters.contains(c1) || pluggedCharacters.contains(c2)) {
-                return identityPlugboard();
+                return identityPlugBoard();
             }
 
             pluggedCharacters.add(c1);

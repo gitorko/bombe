@@ -10,14 +10,14 @@ public class Enigma {
     public Rotor middleRotor;
     public Rotor rightRotor;
     public Reflector reflector;
-    public Plugboard plugboard;
+    public PlugBoard plugboard;
 
     public Enigma(String[] rotors, String reflector, int[] rotorPositions, int[] ringSettings, String plugboardConnections) {
         this.leftRotor = Rotor.Create(rotors[0], rotorPositions[0], ringSettings[0]);
         this.middleRotor = Rotor.Create(rotors[1], rotorPositions[1], ringSettings[1]);
         this.rightRotor = Rotor.Create(rotors[2], rotorPositions[2], ringSettings[2]);
         this.reflector = Reflector.Create(reflector);
-        this.plugboard = new Plugboard(plugboardConnections);
+        this.plugboard = new PlugBoard(plugboardConnections);
     }
 
     public void rotate() {
