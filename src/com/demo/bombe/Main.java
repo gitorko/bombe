@@ -32,8 +32,8 @@ public class Main {
         Bombe bombe = new Bombe(message);
         bombe.crackCode(String.valueOf(cipherText));
         Instant finish = Instant.now();
-        long timeElapsed = Duration.between(start, finish).toMillis();
-        System.out.println("Completed in :" + timeElapsed + " milli seconds");
+        long timeElapsed = Duration.between(start, finish).toMinutes();
+        System.out.println("Completed in :" + timeElapsed + " mins");
     }
 
     public static String encrypt(String message) {
