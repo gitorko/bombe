@@ -23,30 +23,6 @@ public class PlugBoard {
         return mapping;
     }
 
-    public Set<Integer> getUnpluggedCharacters(String plugboard) {
-        Set<Integer> unpluggedCharacters = new HashSet<>();
-        for (int i = 0; i < 26; i++) {
-            unpluggedCharacters.add(i);
-        }
-
-        if (plugboard.equals("")) {
-            return unpluggedCharacters;
-        }
-
-        String[] pairings = plugboard.split("[^a-zA-Z]");
-
-        // Validate and create mapping
-        for (String pair : pairings) {
-            int c1 = pair.charAt(0) - 65;
-            int c2 = pair.charAt(1) - 65;
-
-            unpluggedCharacters.remove(c1);
-            unpluggedCharacters.remove(c2);
-        }
-
-        return unpluggedCharacters;
-    }
-
     public int[] decodePlugboard(String plugboard) {
         if (plugboard == null || plugboard.equals("")) {
             return identityPlugBoard();

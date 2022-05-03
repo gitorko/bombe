@@ -36,7 +36,6 @@ public class Bombe {
                         int[] ringStartPos = ringInputSet.get(j).stream().mapToInt(Integer::valueOf).toArray();
                         int[] ringSettings = ringInputSet.get(k).stream().mapToInt(Integer::valueOf).toArray();
                         for (String plugPair : plugBoardPair) {
-                            System.out.println(plugPair);
                             Enigma enigma = new Enigma(rotorPos, String.valueOf(reflector), ringStartPos, ringSettings, plugPair);
                             char[] decryptText = enigma.decrypt(cipherText);
                             if (String.valueOf(decryptText).startsWith(message)) {

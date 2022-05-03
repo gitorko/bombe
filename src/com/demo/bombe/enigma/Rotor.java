@@ -1,13 +1,13 @@
 package com.demo.bombe.enigma;
 
 public class Rotor {
-    protected String name;
-    protected int[] forwardWiring;
-    protected int[] backwardWiring;
+    String name;
+    int[] forwardWiring;
+    int[] backwardWiring;
 
-    protected int rotorPosition;
-    protected int notchPosition;
-    protected int ringSetting;
+    int rotorPosition;
+    int notchPosition;
+    int ringSetting;
 
     public Rotor(String name, String encoding, int rotorPosition, int notchPosition, int ringSetting) {
         this.name = name;
@@ -54,14 +54,6 @@ public class Rotor {
             default:
                 return new Rotor("Identity", "ABCDEFGHIJKLMNOPQRSTUVWXYZ", rotorPosition, 0, ringSetting);
         }
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getPosition() {
-        return rotorPosition;
     }
 
     protected int[] decodeWiring(String encoding) {

@@ -3,7 +3,7 @@ package com.demo.bombe.enigma;
 import java.util.Arrays;
 
 public class Reflector {
-    protected int[] forwardWiring;
+    int[] forwardWiring;
 
     public Reflector(String encoding) {
         this.forwardWiring = decodeWiring(encoding);
@@ -11,16 +11,18 @@ public class Reflector {
 
     public static Reflector Create(String name) {
         switch (name) {
+            case "A":
+                return new Reflector("ZYXWVUTSRQPONMLKJIHGFEDCBA");
             case "B":
                 return new Reflector("YRUHQSLDPXNGOKMIEBFZCWVJAT");
             case "C":
                 return new Reflector("FVPJIAOYEDRZXWGCTKUQSBNMHL");
             default:
-                return new Reflector("ZYXWVUTSRQPONMLKJIHGFEDCBA");
+                throw new RuntimeException("No such reflector");
         }
     }
 
-    protected int[] decodeWiring(String encoding) {
+    private int[] decodeWiring(String encoding) {
         char[] charWiring = encoding.toCharArray();
         int[] wiring = new int[charWiring.length];
         for (int i = 0; i < charWiring.length; i++) {
