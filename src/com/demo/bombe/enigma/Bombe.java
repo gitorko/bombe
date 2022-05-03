@@ -28,6 +28,7 @@ public class Bombe {
         setRotorInputSet();
         setRingStartSet();
         setPlugBoard();
+        System.out.println("Starting!");
         for (char reflector = 'A'; reflector <= 'C'; reflector++) {
             for (int i = 0; i < rotorInputSet.size(); i++) {
                 for (int j = 0; j < ringInputSet.size(); j++) {
