@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Bombe {
 
@@ -20,6 +22,8 @@ public class Bombe {
     int MAX_WIRES = 1;
     int MAX_ROTOR = 3;
 
+    ExecutorService pool = Executors.newFixedThreadPool(25);
+
     public Bombe(String message) {
         this.message = message;
     }
@@ -32,26 +36,30 @@ public class Bombe {
         System.out.println("Starting, plugCombinations: " + plugBoardPair.size());
         for (char reflector = 'A'; reflector <= 'C'; reflector++) {
             for (int i = 0; i < rotorInputSet.size(); i++) {
-                for (int j = 0; j < ringInputSet.size(); j++) {
-                    for (int k = 0; k < ringInputSet.size(); k++) {
-                        String[] rotorPos = rotorInputSet.get(i).toArray(new String[0]);
-                        int[] ringStartPos = ringInputSet.get(j).stream().mapToInt(Integer::valueOf).toArray();
-                        int[] ringSettings = ringInputSet.get(k).stream().mapToInt(Integer::valueOf).toArray();
-                        for (String plugPair : plugBoardPair) {
-                            Enigma enigma = new Enigma(rotorPos, String.valueOf(reflector), ringStartPos, ringSettings, plugPair);
-                            char[] decryptText = enigma.decrypt(cipherText);
-                            if (String.valueOf(decryptText).startsWith(message)) {
-                                System.out.println("FOUND! " + String.valueOf(decryptText)
-                                        + ", Reflector: " + reflector
-                                        + ", Rotor:" + rotorInputSet.get(i)
-                                        + ", Rotor Start: " + ringInputSet.get(j)
-                                        + ", Ring Setting: " + ringInputSet.get(k)
-                                        + ", Plug Board: " + plugPair);
-                                return;
+                final char reflectorVar = reflector;
+                final int iVar = i;
+                pool.execute(() -> {
+                    for (int j = 0; j < ringInputSet.size(); j++) {
+                        for (int k = 0; k < ringInputSet.size(); k++) {
+                            String[] rotorPos = rotorInputSet.get(iVar).toArray(new String[0]);
+                            int[] ringStartPos = ringInputSet.get(j).stream().mapToInt(Integer::valueOf).toArray();
+                            int[] ringSettings = ringInputSet.get(k).stream().mapToInt(Integer::valueOf).toArray();
+                            for (String plugPair : plugBoardPair) {
+                                Enigma enigma = new Enigma(rotorPos, String.valueOf(reflectorVar), ringStartPos, ringSettings, plugPair);
+                                char[] decryptText = enigma.decrypt(cipherText);
+                                if (String.valueOf(decryptText).startsWith(message)) {
+                                    System.out.println("FOUND! " + String.valueOf(decryptText)
+                                            + ", Reflector: " + reflectorVar
+                                            + ", Rotor:" + rotorInputSet.get(iVar)
+                                            + ", Rotor Start: " + ringInputSet.get(j)
+                                            + ", Ring Setting: " + ringInputSet.get(k)
+                                            + ", Plug Board: " + plugPair);
+                                    System.exit(0);
+                                }
                             }
                         }
                     }
-                }
+                });
             }
         }
     }

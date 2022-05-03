@@ -9,7 +9,7 @@ import com.demo.bombe.enigma.Enigma;
 public class Main {
 
     public static String[] rotorSetup = new String[]{"I", "II", "III"};
-    public static int[] ringSetup = new int[]{0, 0, 0};
+    public static int[] rotorPositionSetup = new int[]{0, 0, 0};
     public static int[] ringSettingSetup = new int[]{0, 0, 0};
     public static String plugBoardSetup = "AR";
     public static String reflector = "A";
@@ -37,13 +37,13 @@ public class Main {
     }
 
     public static String encrypt(String message) {
-        Enigma encryptor = new Enigma(rotorSetup, reflector, ringSetup, ringSettingSetup, plugBoardSetup);
+        Enigma encryptor = new Enigma(rotorSetup, reflector, rotorPositionSetup, ringSettingSetup, plugBoardSetup);
         char[] cipherText = encryptor.encrypt(message.toCharArray());
         return String.valueOf(cipherText);
     }
 
     public static String decrypt(String message) {
-        Enigma decryptor = new Enigma(rotorSetup, reflector, ringSetup, ringSettingSetup, plugBoardSetup);
+        Enigma decryptor = new Enigma(rotorSetup, reflector, rotorPositionSetup, ringSettingSetup, plugBoardSetup);
         char[] decryptText = decryptor.decrypt(message.toCharArray());
         return String.valueOf(decryptText);
     }
